@@ -12,8 +12,7 @@ const {
 export const initialState = {
     items: null,
     fetching: false,
-    error: null,
-    tag: null
+    error: null
 }
 
 export default function gists(state = initialState, action={}) {
@@ -37,6 +36,7 @@ export default function gists(state = initialState, action={}) {
             }
         case APPLY_TAGS:
             return {
+                ...state,
                 items: Object.assign( state.items.map(item => {
                     for (let [key, value] of Object.entries(action.payload.tags)) {
                         if(item.id === key) {
@@ -44,7 +44,7 @@ export default function gists(state = initialState, action={}) {
                         }
                     }
                     return item
-                }) )
+                }))
             }
         case APPLIED_TAGS:
             return {

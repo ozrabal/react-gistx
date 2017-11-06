@@ -32,11 +32,9 @@ const removeTagApi = function *(action) {
     try {
 
 yield call(removeTag, action.payload.tag, action.payload.gist_id)
-console.log(action)
         yield put.resolve(removedTag(action.payload.tag, action.payload.id))
-
     } catch(error) {
-
+        yield put(errorRemovingTag(error.message))
     }
 }
 

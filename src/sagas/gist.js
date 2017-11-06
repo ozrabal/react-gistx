@@ -1,5 +1,5 @@
 import { call, all, put, fork, takeLatest } from 'redux-saga/effects'
-import { receivedGist, errorRequestingGist, attachTags, attachedTags, errorAttachingTags, detachedTag, types } from '../actions/gist'
+import { receivedGist, errorRequestingGist, attachTags, attachedTags, errorAttachingTags, types } from '../actions/gist'
 import { types as tagTypes} from '../actions/tags'
 
 import { fetchGist } from '../api/gists'
@@ -31,7 +31,7 @@ export const attachTagsFromApi = function *(action) {
 const watchReceivedGist = function *() {
     yield takeLatest([types.RECEIVED_GIST, tagTypes.ADDED_TAG, tagTypes.REMOVED_TAG], attachTagsFromApi)
 }
-
+/*
 export const detachTagsFromApi = function *(action) {
     try {
 //const tagsFromApi = yield call(fetchTags)
@@ -46,6 +46,7 @@ const watchDetachTag = function *() {
     console.log('watch detach')
     yield takeLatest([types.DETACH_TAG], detachTagsFromApi)
 }
+*/
 
 export default function *gist() {
     yield all([

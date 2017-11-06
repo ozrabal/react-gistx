@@ -3,8 +3,8 @@ import {
 } from '../actions/auth'
 
 const {
-  GET_TOKEN_SUCCESS,
-  GET_TOKEN_FAILED,
+  /*GET_TOKEN_SUCCESS,
+  GET_TOKEN_FAILED,*/
 
   VALIDATE_TOKEN,
   VALIDATED_TOKEN,
@@ -19,15 +19,16 @@ const initialState = {
 
 export default function auth(state = initialState, action = {}) {
   switch (action.type) {
-    case GET_TOKEN_SUCCESS:
+    /*case GET_TOKEN_SUCCESS:
       return {
         ...state,
-        token: action.token
+        token: action.payload.token
       }
     case GET_TOKEN_FAILED:
       return {
-        ...state
-      }
+        ...state,
+        fetching: false
+    }*/
     case VALIDATE_TOKEN:
       return {
         ...state,
