@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import TagInput from '../containers/tagInput'
 import TagList from '../containers/tagList'
-import EmbeddedGist from '../containers/embeded'
+import EmbeddedGist from '../containers/gistembeded'
 
 
 class GistItem extends PureComponent  {
@@ -15,7 +15,7 @@ class GistItem extends PureComponent  {
                 <div>Gist: {item.description}
                     {item.tag && <TagList tag={item.tag} id={item.id}/>}
                     <TagInput id={item.id} />
-                    <EmbeddedGist gist={item.id} ></EmbeddedGist>
+                    <EmbeddedGist id={item.id} ></EmbeddedGist>
                 </div>
             )
         }

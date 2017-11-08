@@ -4,6 +4,9 @@ const {
     REQUEST_GIST,
     RECEIVED_GIST,
     ERROR_REQUESTING_GIST,
+    SET_STYLESHEET,
+    SET_SOURCE,
+    SET_LOADING,
     ATTACH_TAGS,
     ATTACHED_TAGS,
     ERROR_ATTACHING_TAGS,
@@ -14,7 +17,10 @@ const {
 
 export const initialState = {
     item: null,
+    stylesheet: null,
+    source: null,
     fetching: false,
+    loading: false,
     error: null,
 }
 
@@ -36,6 +42,22 @@ export default function gist(state = initialState, action = {}) {
             return {
                 ...state,
                 error: action.payload.error
+            }
+        case SET_STYLESHEET:
+            return {
+                ...state,
+                stylesheet: action.payload.href
+            }
+        case SET_SOURCE:
+            return {
+                ...state,
+                source: action.payload.src,
+                loading: false
+            }
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload.loading
             }
         case ATTACH_TAGS:
            let tags = {}

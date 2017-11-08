@@ -2,6 +2,10 @@ export const types = {
     REQUEST_GIST: 'REQUEST_GIST',
     RECEIVED_GIST: 'RECEIVED_GIST',
     ERROR_REQUESTING_GIST: 'ERROR_REQUESTING_GIST',
+    SET_STYLESHEET: 'SET_STYLESHEET',
+    SET_SOURCE: 'SET_SOURCE',
+    SET_LOADING: 'SET_LOADING',
+
     ATTACH_TAGS: 'ATTACH_TAGS',
     ATTACHED_TAGS: 'ATTACHED_TAGS',
     ERROR_ATTACHING_TAGS: 'ERROR_ATTACHING_TAGS',
@@ -29,6 +33,27 @@ export const errorRequestingGist = (error) => ({
         error
     },
     type: types.ERROR_REQUESTING_GIST
+})
+
+export const setStylesheet = (href) => ({
+    payload: {
+        href
+    },
+    type: types.SET_STYLESHEET
+})
+
+export const setSource = (src) => ({
+    payload: {
+        src
+    },
+    type: types.SET_SOURCE
+})
+
+export const setLoading = (loading) => ({
+    payload: {
+        loading
+    },
+    type: types.SET_LOADING
 })
 
 export const attachTags = (tags) => ({
