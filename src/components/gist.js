@@ -12,10 +12,10 @@ class GistItem extends PureComponent  {
             return <p>Not found</p>
         } else {
             return (
-                <div>Gist: {item.description}
-                    {item.tag && <TagList tag={item.tag} id={item.id}/>}
+                <div>{item.description}
+                    {item.tag && <TagList tag={item.tag} id={item.id} removable={true}/>}
                     <TagInput id={item.id} />
-                    <EmbeddedGist id={item.id} ></EmbeddedGist>
+                    <EmbeddedGist id={item.id}></EmbeddedGist>
                 </div>
             )
         }

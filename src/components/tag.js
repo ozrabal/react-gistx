@@ -1,7 +1,8 @@
 import React from 'react'
+import { Tag } from '../styled'
 
 export const TagButton = (props) => {
-    const { tag, onRemoveClick } = props
+    const { tag, onRemoveClick, remove } = props
 
-    return <span>{tag}<button type="button" onClick={onRemoveClick}>x</button></span>
+    return <Tag>{tag}{remove && <button type="button" onClick={onRemoveClick}>x</button>}</Tag>
 }

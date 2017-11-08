@@ -21,10 +21,10 @@ class TagList extends PureComponent {
     }
 
     render() {
-        const { id, tag } = this.props
+        const { id, tag, removable } = this.props
 
         const tags = tag.map((item, index) =>
-          <li key={index}><TagButton tag={item} onRemoveClick={(event) => this.handleClick(event, item, id)} /></li>
+          <li key={index}><TagButton tag={item} remove={removable} onRemoveClick={(event) => this.handleClick(event, item, id)} /></li>
         )
         return <Tags>{tags}</Tags>
     }
