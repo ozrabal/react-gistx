@@ -7,11 +7,6 @@ import configureStore from './store/configureStore'
 import App from './App'
 
 it('renders without crashing', () => {
-  console.log = function() { return null}
-  console.error = function() {}
-  global.requestAnimationFrame = function(callback) {
-    setTimeout(callback, 0)
-  }
   const div = document.createElement('div')
   const history = createHistory()
   const store = configureStore()

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'whatwg-fetch';
+// import 'whatwg-fetch';
 //import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux'
 import registerServiceWorker from './registerServiceWorker';
@@ -61,7 +61,7 @@ const store = createStore(
 
 )
 */
-
+console.log('env', process.env)
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>

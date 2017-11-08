@@ -10,50 +10,56 @@
 /*console.error = message => {
    throw new Error(message)
 };*/
-const react = require('react');
+const react = require('react')
 // Resolution for requestAnimationFrame not supported in jest error :
 // https://github.com/facebook/react/issues/9102#issuecomment-283873039
 //global.window = global;
-window.addEventListener = () => {};
+window.addEventListener = () => {}
 window.requestAnimationFrame = () => {
-  throw new Error('requestAnimationFrame is not supported in Node');
-};
-
+    throw new Error('requestAnimationFrame is not supported in Node')
+}
+console.log = function() {}
+console.error = function() {}
 module.exports = react;
+
 var localStorageMock = (function() {
-    var store = {'token': 'token'};
+    var store = {
+        'token': 'token'
+    }
 
     return {
         getItem: function(key) {
-            return store[key] || null;
+            return store[key] || null
         },
         setItem: function(key, value) {
-            store[key] = value.toString();
+            store[key] = value.toString()
         },
         removeItem: function(key) {
-          store[key] = undefined
+            store[key] = undefined
         },
         clear: function() {
-            store = {};
+            store = {}
         }
-    };
-})();
-if (!Object.entries)
-  Object.entries = function( obj ){
-    var ownProps = Object.keys( obj ),
-        i = ownProps.length,
-        resArray = new Array(i); // preallocate the Array
-    while (i--)
-      resArray[i] = [ownProps[i], obj[ownProps[i]]];
+    }
+})()
+Object.defineProperty(window, 'localStorage', {value: localStorageMock})
 
-    return resArray;
-  };
-Object.defineProperty(window, 'localStorage', {
-     value: localStorageMock
-});
+if (!Object.entries) {
+    Object.entries = function(obj) {
+        var ownProps = Object.keys(obj),
+            i = ownProps.length,
+            resArray = new Array(i)
+        while (i--)
+            resArray[i] = [
+                ownProps[i],
+                obj[ownProps[i]]
+            ]
+
+        return resArray;
+    }
+}
 
 const raf = global.requestAnimationFrame = (cb) => {
-  setTimeout(cb, 0)
-};
-
+    setTimeout(cb, 0)
+}
 export default raf
