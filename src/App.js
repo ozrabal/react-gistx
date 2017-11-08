@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
+import { ThemeProvider } from 'styled-components'
 
-import { Container, Nav } from './styled'
+import { Container, Nav, Header } from './styled'
+import { theme } from './styled/theme'
 import { getToken } from './utils'
 import { validateToken } from './actions/auth'
 import Home from './containers/home'
@@ -32,24 +34,29 @@ class App extends Component {
   }
 
   render() {
-      
+console.log(theme)
       return (
             <Router>
+                <ThemeProvider theme={theme}>
                 <Container>
-                    <Nav>
-                        <ul>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/about">About</Link></li>
-                            {/* <li><<Link to="/auth">Login</Link></li> */}
-                        </ul>
-                    </Nav>
-                    <Route exact path="/" component={userIsAuthenticated(Home)}/>
-                    <Route path="/gist/:id" component={Home} />
-                    <Route exact path="/about" component={userIsAuthenticated(About)}/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/auth" component={Auth}/>
-                    <Route exact path="/token/:token" component={Token} />
+                    <Header>
+                        <Nav>
+                            <ul>
+                                <li><Link to="/">Home</Link></li>
+                                <li><Link to="/about">About</Link></li>
+                                {/* <li><<Link to="/auth">Login</Link></li> */}
+                            </ul>
+                        </Nav>
+                    </Header>
+                        <Route exact path="/" component={userIsAuthenticated(Home)}/>
+                        <Route path="/gist/:id" component={Home} />
+                        <Route exact path="/about" component={userIsAuthenticated(About)}/>
+                        <Route exact path="/login" component={Login}/>
+                        <Route exact path="/auth" component={Auth}/>
+                        <Route exact path="/token/:token" component={Token} />
+
                 </Container>
+            </ThemeProvider>
             </Router>
         )
     }
