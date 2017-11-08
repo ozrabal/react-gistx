@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { requestGist } from '../actions/gist'
@@ -6,20 +7,19 @@ import GistItem from '../components/gist'
 
 class Gist extends PureComponent {
 
-
     componentDidMount() {
-        const { requestGist, match: { params: { id } } } = this.props
+        const { actions, match: { params: { id } } } = this.props
 
         if (id) {
-            requestGist(id)
+            actions.requestGist(id)
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        const { requestGist } = this.props
+        const { actions } = this.props
 
         if (this.props.match.params.id !== nextProps.match.params.id) {
-            requestGist(nextProps.match.params.id)
+            actions.requestGist(nextProps.match.params.id)
         }
     }
 
@@ -37,9 +37,9 @@ class Gist extends PureComponent {
 }
 
 const mapDispatchToProps = (dispatch) => {
+    const actions = Object.assign({}, {requestGist})
     return {
-        requestGist: (id) => dispatch(requestGist(id)),
-        //addTag: (tag, id) => dispatch(addTag(tag, id))
+        actions: bindActionCreators(actions, dispatch)
     }
 }
 

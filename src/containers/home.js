@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import {  BrowserRouter as Router, Route } from 'react-router-dom'
 import { requestGists } from '../actions/gists'
-import { requestGist } from '../actions/gist'
 import { ItemsList } from '../components/ItemsList'
 import Gist from './gist'
 import {Row, Column } from '../styled'
@@ -11,8 +11,8 @@ import {Row, Column } from '../styled'
 class Home extends Component {
 
     componentWillMount() {
-        const { requestGists } = this.props
-        requestGists()
+        const { actions } = this.props
+        actions.requestGists()
     }
 
     render() {
@@ -34,18 +34,15 @@ class Home extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
+    const actions = Object.assign({}, {requestGists})
     return {
-        requestGists: () => dispatch(requestGists()),
-        requestGist: (id) => dispatch(requestGist(id)),
+        actions: bindActionCreators(actions, dispatch),
     }
 }
 
 const mapStateToProps = (state) => {
     return {
         gists: state.gists.items,
-        gist: state.gist.item,
-        token: state.auth.token,
-        error: state.gists.error
     }
 }
 
