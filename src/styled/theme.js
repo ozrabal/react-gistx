@@ -2,12 +2,21 @@ export const theme = {
     borderColor: '#dddddd',
     borderRadius: '3px',
     textColor: '#666666',
-    headerBg: '#f7f7f7',
+    linkColor: '#0366d6',
+    
+    header: {
+      bgColor: '#f7f7f7',
+    },
 
-    tagBtnBorderColor: '#dddddd',
-    tagBtnBorderRadius: '3px',
-    tagBtnBg: '#f7f7f7',
-    tagBtnTextColor: '#666666',
-    tagBtnHoverTextColor: '#000000',
-    tagBtnHoverBg: '#ffffff',
+    tag: {
+        bgColor: '#f7f7f7',
+        borderColor: '#dddddd',
+        hoverBgColor: '#ffffff',
+        hoverTextColor: '#000000',
+        textColor: '#666666',
+    },
+
+    info: {
+        alertBg: '#cdcdcd',
+    }
 }
