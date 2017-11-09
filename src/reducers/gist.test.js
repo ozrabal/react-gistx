@@ -1,13 +1,13 @@
 import gist from './gist'
-
-import {
-    types
-} from '../actions/gist'
+import { types } from '../actions/gist'
 
 const initialState = {
     item: null,
     fetching: false,
     error: null,
+    loading: false,
+    source: null,
+    stylesheet: null
 }
 
 describe('store/gist/reducer', () => {
@@ -16,7 +16,7 @@ describe('store/gist/reducer', () => {
     })
 
     it('should not affect state', () => {
-      expect(gist(undefined, {type:types.UNDEFINED})).toEqual(initialState)
+      expect(gist(undefined, {type:null})).toEqual(initialState)
     })
 
     it('should handle ERROR_ATTACHING_TAGS', () => {
@@ -69,5 +69,20 @@ describe('store/gist/reducer', () => {
     it('should handle ERROR_REQUESTING_GIST', () => {
         const result = Object.assign({},initialState, {error: 'error'})
         expect(gist(undefined, {type:types.ERROR_REQUESTING_GIST, payload: {error: 'error'}})).toEqual(result)
+    })
+
+    it('should handle SET_STYLESHEET', () => {
+        const result = Object.assign({}, initialState, {stylesheet: 'stylesheet'})
+        expect(gist(undefined, {type: types.SET_STYLESHEET, payload: {href: 'stylesheet'}})).toEqual(result)
+    })
+
+    it('should handle SET_SOURCE', () => {
+        const result = Object.assign({}, initialState, {source: 'src'})
+        expect(gist(undefined, {type: types.SET_SOURCE, payload: {src: 'src'}})).toEqual(result)
+    })
+
+    it('should handle SET_LOADING', () => {
+        const result = Object.assign({}, initialState, {loading: true})
+        expect(gist(undefined, {type: types.SET_LOADING, payload: {loading: true}})).toEqual(result)
     })
 })
