@@ -6,7 +6,7 @@ import {  BrowserRouter as Router, Route } from 'react-router-dom'
 import { requestGists } from '../actions/gists'
 import { ItemsList } from '../components/ItemsList'
 import Gist from './gist'
-import {Row, Column } from '../styled'
+import { Row, Column } from '../styled'
 
 class Home extends Component {
 
@@ -21,10 +21,10 @@ class Home extends Component {
         return (
             <Router>
                 <Row>
-                    <Column>
+                    <Column sm={4}>
                         <ItemsList items={gists} />
                     </Column>
-                    <Column>
+                    <Column sm={8}>
                         <Route path="/gist/:id" component={Gist} />
                     </Column>
                 </Row>

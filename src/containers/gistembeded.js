@@ -1,18 +1,23 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
+import { PropTypes } from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { setStylesheet, setSource, setLoading } from '../actions/gist'
 
 class EmbeddedGist extends PureComponent {
 
-    addStylesheet = (href) => {
+    static propTypes = {
+        id: PropTypes.string
+    }
+
+    addStylesheet(href) {
         const { stylesheet } = this.props
         if (!stylesheet) {
             let link = document.createElement('link')
             link.type = 'text/css'
             link.rel = 'stylesheet'
             link.href = href
-            document.head.appendChild(link);
+            document.head.appendChild(link)
         }
     }
 
@@ -23,14 +28,16 @@ class EmbeddedGist extends PureComponent {
         const gistCallback = 'gist_callback_' + Date.now()
 
         window[gistCallback] = function(gist) {
+            if(!gist) {
+                throw new Error('API error')
+            }
             actions.setStylesheet(gist.stylesheet)
             this.addStylesheet(gist.stylesheet)
             actions.setSource(gist.div)
-        }.bind(this);
+        }.bind(this)
 
         const url = `https://gist.github.com/${ id }.json?callback=${ gistCallback }`
-        // Add the JSONP script tag to the document.
-        var script = document.createElement('script')
+        const script = document.createElement('script')
         script.type = 'text/javascript'
         script.src = url
         document.head.appendChild(script)
@@ -39,7 +46,7 @@ class EmbeddedGist extends PureComponent {
     render() {
         const { gist } = this.props
         if (gist.loading) {
-            return <div>loading...</div>;
+            return <div>loading...</div>
         } else {
             return <div dangerouslySetInnerHTML={{
                     __html: gist.source
