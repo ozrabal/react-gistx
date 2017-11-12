@@ -3,13 +3,28 @@ import { PropTypes } from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { setStylesheet, setSource, setLoading } from '../actions/gist'
-
+import { Loading } from  '../components/loading'
+import TagList from '../containers/tagList'
+import TagInput from '../containers/tagInput'
+import { api } from '../config'
+/**
+ * Component display single gist
+ */
 class EmbeddedGist extends PureComponent {
 
+    /**
+     * propTypes
+     * @type {Object}
+     * @property {Object} item Gist item
+     */
     static propTypes = {
-        id: PropTypes.string
+        item: PropTypes.object,
     }
 
+    /**
+     * Add Githubs gist embeded stylesheet
+     * @param {String} href The URL of the stylesheet
+     */
     addStylesheet(href) {
         const { stylesheet } = this.props
         if (!stylesheet) {
@@ -21,13 +36,16 @@ class EmbeddedGist extends PureComponent {
         }
     }
 
+    /**
+     * React lifecycle method
+     */
     componentWillMount() {
-        const { actions, id } = this.props
+        const { actions, item: { id }  } = this.props
 
         actions.setLoading(true)
-        const gistCallback = 'gist_callback_' + Date.now()
+        const callback = 'gist_callback_' + Date.now()
 
-        window[gistCallback] = function(gist) {
+        window[callback] = function(gist) {
             if(!gist) {
                 throw new Error('API error')
             }
@@ -36,21 +54,32 @@ class EmbeddedGist extends PureComponent {
             actions.setSource(gist.div)
         }.bind(this)
 
-        const url = `https://gist.github.com/${ id }.json?callback=${ gistCallback }`
+        let url = api.endpoints.APP_EMBED_ITEM_URL.replace(':id', id).replace(':callback', callback)
         const script = document.createElement('script')
         script.type = 'text/javascript'
         script.src = url
         document.head.appendChild(script)
     }
 
+    /**
+     * Render react component
+     * @returns {XML}
+     */
     render() {
-        const { gist } = this.props
+        const { gist, item } = this.props
         if (gist.loading) {
-            return <div>loading...</div>
+            return <Loading/>
         } else {
-            return <div dangerouslySetInnerHTML={{
-                    __html: gist.source
-                }}/>
+            return (
+                <div>
+                    {item.description && <div>{item.description}</div>}
+                    {item.tag && <TagList tag={item.tag} id={item.id} removable={true}/>}
+                    <TagInput id={item.id} />
+                    <div dangerouslySetInnerHTML={{
+                        __html: gist.source
+                    }}/>
+                </div>
+            )
         }
     }
 }
