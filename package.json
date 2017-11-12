@@ -10,6 +10,7 @@
     "core-js": "^2.5.1",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
+    "esdoc": "^1.0.3",
     "express": "^4.16.1",
     "express-partials": "^0.3.0",
     "express-session": "^1.15.6",
@@ -42,6 +43,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "coverage": "react-scripts test --env=jsdom --coverage --watchAll",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "doc": "./node_modules/.bin/esdoc -c ./esdoc.json"
+  },
+  "devDependencies": {
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-jsx-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0",
+    "prop-types": "^15.6.0"
   }
 }
