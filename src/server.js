@@ -1,15 +1,11 @@
-require('dotenv').config({path: './config.env'})
+require('dotenv').load()
 const base64 = require('base-64')
 const request = require('request')
 const express = require('express')
 const passport = require('passport')
-var util = require('util')
-var session = require('express-session')
-var bodyParser = require('body-parser')
-var methodOverride = require('method-override')
-var GitHubStrategy = require('passport-github2').Strategy
-var partials = require('express-partials')
-var cors = require('cors')
+const session = require('express-session')
+const gitHubStrategy = require('passport-github2').Strategy
+const cors = require('cors')
 
 passport.serializeUser(function(user, done) {
     done(null, user)
@@ -20,23 +16,23 @@ passport.deserializeUser(function(obj, done) {
 })
 
 let token = null
-const PROXY_PORT = process.env.APP_PROXY_PORT || 9000
-const PROXY_URL = process.env.APP_PROXY_URL + ':' + PROXY_PORT
+const APP_PROXY_PORT = process.env.APP_PROXY_PORT || 9000
+const APP_PROXY_URL = process.env.APP_PROXY_URL + ':' + APP_PROXY_PORT
 
-passport.use(new GitHubStrategy({
+passport.use(new gitHubStrategy({
     clientID: process.env.API_CLIENT_ID,
     clientSecret: process.env.API_CLIENT_SECRET,
-    callbackURL: PROXY_URL + "/auth/github/callback"
+    callbackURL: APP_PROXY_URL + "/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
           token = accessToken
           return done(null, profile)
-    });
+    })
   }
-));
+))
 
-const app = express();
+const app = express()
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors())
@@ -49,7 +45,7 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
     }
 )
 
-/*api*/
+// api
 const authorizationHeader = function(authorizationString) {
     return {
         'User-Agent': 'request',
@@ -103,5 +99,5 @@ app.get('/_api/validate/:token', (req, res) => {
     })
 })
 
-console.log('Started proxy server at '+ PROXY_URL )
-app.listen(PROXY_PORT);
+console.log('Started proxy server at '+ APP_PROXY_URL )
+app.listen(APP_PROXY_PORT)

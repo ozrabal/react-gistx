@@ -44,7 +44,8 @@
     "test": "react-scripts test --env=jsdom",
     "coverage": "react-scripts test --env=jsdom --coverage --watchAll",
     "eject": "react-scripts eject",
-    "doc": "./node_modules/.bin/esdoc -c ./esdoc.json"
+    "doc": "./node_modules/.bin/esdoc -c ./esdoc.json",
+    "proxy": "node src/server.js"
   },
   "devDependencies": {
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",

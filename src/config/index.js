@@ -1,4 +1,4 @@
-const BASE_API_URL = 'http://localhost:9000/_api'
+const BASE_API_URL = process.env.REACT_APP_API_URL
 const BASE_EMBED_ITEM_URL = 'https://gist.github.com'
 
 export const api = {
