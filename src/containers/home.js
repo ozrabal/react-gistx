@@ -8,6 +8,7 @@ import { requestGist } from '../actions/gist'
 import { ItemsList } from '../components/ItemsList'
 import Gist from './gist'
 import { Row, Column } from '../styled'
+import { Loading } from  '../components/loading'
 
 class Home extends Component {
 
@@ -32,7 +33,8 @@ class Home extends Component {
             <Router>
                 <Row>
                     <Column sm={4}>
-                        <ItemsList items={gists} />
+                        {gists && <ItemsList items={gists} />}
+                        {!gists && <Loading/>}
                     </Column>
                     <Column sm={8}>
                         <Route exact path="/" component={Gist} />

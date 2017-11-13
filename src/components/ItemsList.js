@@ -8,7 +8,7 @@ export const ItemsList = (props) => {
     if (items) {
         list = items.map((gist) =>
             <Item key={gist.id} description={gist.description} id={gist.id} created_at={gist.created_at} tag={gist.tag}/*onClickItem={onClickItem} *//>
-        );
+        )
     }
 
     return <List>{list}</List>

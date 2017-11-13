@@ -28,8 +28,6 @@ class Gist extends PureComponent {
 
         return (
             <div>
-                {isLoading && <div>Loading</div>}
-                {gist && <p>{gist.tag}</p>}
                 {gist && <GistItem item={gist} tag={gist.tag}/>}
             </div>
         )
