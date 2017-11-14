@@ -1,4 +1,7 @@
 export const types = {
+    REQUEST_ALL_TAGS: 'REQUEST_ALL_TAGS',
+    RECEIVED_ALL_TAGS: 'RECEIVED_ALL_TAGS',
+    ERROR_REQUESTING_ALL_TAGS: 'ERROR_REQUESTING_ALL_TAGS',
     REQUEST_TAGS: 'REQUEST_TAGS',
     RECEIVED_TAGS: 'RECEIVED_TAGS',
     ERROR_REQUESTING_TAGS: 'ERROR_REQUESTING_TAGS',
@@ -9,6 +12,24 @@ export const types = {
     REMOVED_TAG: 'REMOVED_TAG',
     ERROR_REMOVING_TAG: 'ERROR_REMOVING_TAG',
 }
+
+export const requestAllTags = () => ({
+    type: types.REQUEST_ALL_TAGS,
+})
+
+export const receivedAllTags = (all) => ({
+    payload: {
+        all
+    },
+    type: types.RECEIVED_ALL_TAGS
+})
+
+export const errorReceivingAllTags = (error) => ({
+    payload: {
+        error
+    },
+    type: types.ERROR_REQUESTING_ALL_TAGS
+})
 
 export const requestTags = () => ({
     type: types.REQUEST_TAGS
