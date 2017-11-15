@@ -17,10 +17,7 @@ export const requestAllTags = () => ({
     type: types.REQUEST_ALL_TAGS,
 })
 
-export const receivedAllTags = (all) => ({
-    payload: {
-        all
-    },
+export const receivedAllTags = () => ({
     type: types.RECEIVED_ALL_TAGS
 })
 

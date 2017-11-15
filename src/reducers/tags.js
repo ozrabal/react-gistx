@@ -1,6 +1,9 @@
 import { types } from '../actions/tags'
 
 const {
+    REQUEST_ALL_TAGS,
+    RECEIVED_ALL_TAGS,
+    ERROR_REQUESTING_ALL_TAGS,
     REQUEST_TAGS,
     RECEIVED_TAGS,
     ERROR_REQUESTING_TAGS,
@@ -15,11 +18,37 @@ const {
 export const initialState = {
     tags: null,
     fetching: false,
-    error: null
+    error: null,
+    all: null,
+}
+
+const generateTagList = (tags) => {
+    let out = []
+    Object.keys(tags).forEach((key) => {
+        out.push(...tags[key])
+    })
+    return Array.from(new Set(out))
 }
 
 export default function tags(state = initialState, action = {}) {
     switch (action.type) {
+        case REQUEST_ALL_TAGS:
+            return {
+                ...state,
+                fetching: true,
+                error: null,
+                all: Object.assign({}, generateTagList(state.tags))
+            }
+        case RECEIVED_ALL_TAGS:
+            return {
+                ...state,
+                fetching: false,
+            }
+        case ERROR_REQUESTING_ALL_TAGS:
+            return {
+                ...state,
+                error: action.payload.error
+            }
         case REQUEST_TAGS:
             return {
                 ...state,
@@ -41,13 +70,12 @@ export default function tags(state = initialState, action = {}) {
             return {
                 ...state,
                 fetching: true,
-                tags: null
             }
         case ADDED_TAG:
             return {
                 ...state,
                 fetching: false,
-                tags: action.payload.tag
+                tags: action.payload.tags
             }
         case ERROR_ADDING_TAG:
             return {
