@@ -37,7 +37,7 @@ export default function tags(state = initialState, action = {}) {
                 ...state,
                 fetching: true,
                 error: null,
-                all: Object.assign({}, generateTagList(state.tags))
+                all: generateTagList(state.tags)
             }
         case RECEIVED_ALL_TAGS:
             return {

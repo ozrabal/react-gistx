@@ -80,6 +80,16 @@ export const Tag = styled.div`
         }
     }
 `
+export const TagList = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid ${props => props.theme.blueDarkColor};
+    background-color: ${props => props.theme.blueLight};
+    div {
+        float: left;
+        margin: 2px;
+    }
+`
 export const Alert = styled.div`
     background-color: ${props => props.theme[props.type].alertBg};
     border: 1px solid ${props => props.theme.borderColor};

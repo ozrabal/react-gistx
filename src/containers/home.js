@@ -9,6 +9,7 @@ import { ItemsList } from '../components/ItemsList'
 import Gist from './gist'
 import { Row, Column } from '../styled'
 import { Loading } from  '../components/loading'
+import { Tags } from '../components/tags'
 
 class Home extends Component {
 
@@ -27,10 +28,16 @@ class Home extends Component {
     }
 
     render() {
-        const { gists } = this.props
-
+        const { gists, tags } = this.props
+//console.log(this.props)
         return (
             <Router>
+                <div>
+                <Row>
+                    <Column sm={12}>
+                        {tags.all && <Tags tags={tags.all} />}
+                    </Column>
+                </Row>
                 <Row>
                     <Column sm={4}>
                         {gists && <ItemsList items={gists} />}
@@ -41,6 +48,7 @@ class Home extends Component {
                         <Route exact path="/gist/:id" component={Gist} />
                     </Column>
                 </Row>
+            </div>
             </Router>
         )
     }
@@ -56,6 +64,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         gists: state.gists.items,
+        tags: state.tags,
     }
 }
 
