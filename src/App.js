@@ -50,6 +50,7 @@ class App extends Component {
                         </Header>
                             <Route exact path="/" component={userIsAuthenticated(Home)}/>
                             <Route path="/gist/:id" component={userIsAuthenticated(Home)}/>
+                            <Route path="/tag/:tag" component={userIsAuthenticated(Home)}/>
                             <Route exact path="/about" component={userIsAuthenticated(About)}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/auth" component={Auth}/>
