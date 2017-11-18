@@ -20,6 +20,7 @@ export const Nav = styled.nav`
 export const Container = styled.main`
     font-family: sans-serif;
     font-size: 14px;
+    padding: 0 15px;
     a {
         text-decoration: none;
         color: ${props => props.theme.linkColor};
