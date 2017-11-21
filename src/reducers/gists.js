@@ -6,11 +6,14 @@ const {
     ERROR_REQUESTING_GISTS,
     APPLY_TAGS,
     APPLIED_TAGS,
-    ERROR_APPLYING_TAGS
+    ERROR_APPLYING_TAGS,
+    FILTER_BY_TAG,
+    FILTERED_BY_TAG,
 } = types
 
 export const initialState = {
     items: null,
+    bytag: null,
     fetching: false,
     error: null
 }
@@ -50,11 +53,30 @@ export default function gists(state = initialState, action={}) {
             return {
                 ...state,
             }
-            case ERROR_APPLYING_TAGS:
-                return {
-                    ...state,
-                    error: action.payload.error
+        case ERROR_APPLYING_TAGS:
+            return {
+                ...state,
+                error: action.payload.error
+            }
+        case FILTER_BY_TAG:
+            return {
+                ...state,
+                //items: Object.assign({},{})
+            }
+        case FILTERED_BY_TAG:
+        console.log('reducer', action.payload)
+            return {
+                ...state,
+                bytag: Object.assign(action.payload.gists.items.filter((item) => {
+                    //console.log('raducer', item)
+                    if(item.tag) {
+                    return item.tag.find((tag) => {
+
+                        return tag === action.payload.tag
+                    })
                 }
+                }))
+            }
         default:
             return state
     }

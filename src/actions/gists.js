@@ -6,6 +6,7 @@ export const types = {
     APPLIED_TAGS: 'APPLIED_TAGS',
     ERROR_APPLYING_TAGS: 'ERROR_APPLYING_TAGS',
     FILTER_BY_TAG: 'FILTER_BY_TAG',
+    FILTERED_BY_TAG: 'FILTERED_BY_TAG',
 }
 
 export const requestGists = () => ({
@@ -52,4 +53,12 @@ export const filterByTag = (tag) => ({
         tag
     },
     type: types.FILTER_BY_TAG
+})
+
+export const filteredBytag = (tag, gists) => ({
+    payload: {
+        tag,
+        gists
+    },
+    type: types.FILTERED_BY_TAG
 })
