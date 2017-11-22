@@ -55,10 +55,9 @@ export const filterByTag = (tag) => ({
     type: types.FILTER_BY_TAG
 })
 
-export const filteredBytag = (tag, gists) => ({
+export const filteredBytag = (tag) => ({
     payload: {
-        tag,
-        gists
+        tag
     },
     type: types.FILTERED_BY_TAG
 })

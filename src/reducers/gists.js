@@ -61,14 +61,13 @@ export default function gists(state = initialState, action={}) {
         case FILTER_BY_TAG:
             return {
                 ...state,
-                //items: Object.assign({},{})
+                bytag: null,
             }
         case FILTERED_BY_TAG:
         console.log('reducer', action.payload)
             return {
                 ...state,
-                bytag: Object.assign(action.payload.gists.items.filter((item) => {
-                    //console.log('raducer', item)
+                bytag: Object.assign(state.items.filter((item) => {
                     if(item.tag) {
                     return item.tag.find((tag) => {
 

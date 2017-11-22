@@ -1,5 +1,5 @@
-import {  all, call, fork, put, takeLatest } from 'redux-saga/effects'
-import { receivedGists, errorRequestingGists, applyTags, appliedTags, errorApplyingTags, types as gistTypes } from '../actions/gists'
+import {  all, call, fork, put, select, takeLatest } from 'redux-saga/effects'
+import { receivedGists, errorRequestingGists, applyTags, appliedTags, errorApplyingTags, filterByTag, filteredBytag, types as gistTypes } from '../actions/gists'
 import { requestTags, errorRequestingTags , types as tagTypes} from '../actions/tags'
 import { fetchGists } from '../api/gists'
 
@@ -33,18 +33,27 @@ export const applyTagsToGists = function *(action) {
     }
 }
 
+export const filterGistsByTag = function *(action) {
+    yield put(filteredBytag(action.payload.tag))
+}
+
 const watchReceivedGists = function *() {
-    yield takeLatest([gistTypes.RECEIVED_GISTS, tagTypes.REMOVED_TAG], fetchTagsFromApi)
+    yield takeLatest([gistTypes.RECEIVED_GISTS,  tagTypes.REMOVED_TAG], fetchTagsFromApi)
 }
 
 const watchReceivedTags = function *() {
     yield takeLatest([tagTypes.RECEIVED_TAGS, tagTypes.ADDED_TAG], applyTagsToGists)
 }
 
+const watchFilterGists = function *() {
+    yield takeLatest([gistTypes.FILTER_BY_TAG], filterGistsByTag)
+}
+
 export default function *gists() {
     yield all([
         fork(watchRequestGists),
         fork(watchReceivedGists),
-        fork(watchReceivedTags)
+        fork(watchReceivedTags),
+        fork(watchFilterGists)
     ])
 }
