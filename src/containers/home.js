@@ -2,37 +2,50 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import {  BrowserRouter as Router, Route } from 'react-router-dom'
-import { requestGists } from '../actions/gists'
+import {  BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { requestGists, filterByTag } from '../actions/gists'
 import { requestGist } from '../actions/gist'
-import { ItemsList } from '../components/ItemsList'
+import ItemsList from '../containers/ItemsList'
+import ByTagList from '../containers/ByTagList'
 import Gist from './gist'
 import { Row, Column } from '../styled'
-import { Loading } from  '../components/loading'
+
 import { Tags } from '../components/tags'
 
 class Home extends Component {
 
-    componentWillMount() {
-        const { actions, } = this.props
+    componentDidMount() {
+        const { actions, gists,  match: { path } } = this.props
 
         actions.requestGists()
     }
 
-    componentWillUpdate() {
-        const {actions, gists} = this.props
+    componentWillReceiveProps(nextProps) {
+        const {actions, gists,gist,  match: { params: { tag } } } = this.props
 
-        if (gists) {
-            actions.requestGist(gists[0].id)
+        if (nextProps.match.params.tag !== tag) {
+            actions.filterByTag( nextProps.match.params.tag)
         }
     }
 
+    /**
+     * Render items list
+     * @return {ReactElement} markup
+     */
+    renderList() {
+        const {gists, bytag, match: { params: { tag } }} = this.props
+
+        if (tag) {
+            return <ItemsList items={bytag} />
+        }
+        return <ItemsList items={gists} />
+    }
+
     render() {
-        const { gists, tags } = this.props
-//console.log(this.props)
+        const { gists, tags,bytag, match: { params: { tag } } } = this.props
+
         return (
-            <Router>
-                <div>
+            <div>
                 <Row>
                     <Column sm={12}>
                         {tags.all && <Tags tags={tags.all} />}
@@ -40,22 +53,27 @@ class Home extends Component {
                 </Row>
                 <Row>
                     <Column sm={4}>
-                        {gists && <ItemsList items={gists} />}
-                        {!gists && <Loading/>}
+                        { this.renderList() }
+
+                        { /*<Route exact path="/tag/:tag" component={ByTagList} /> */}
+                        { /*<Route path="/" component={ItemsList} /> */}
+                        { /*tag && <h4>Marked as {tag}</h4> */}
+                        { /*tag && bytag && <ItemsList items={bytag} filter={tag}/> */}
+                        {/*!tag && gists && <ItemsList items={gists} filter={tag}/> */}
+                        {/* !gists && <Loading/> */ }
                     </Column>
                     <Column sm={8}>
-                        <Route exact path="/" component={Gist} />
-                        <Route exact path="/gist/:id" component={Gist} />
+                        <Gist/>
+                        {/*<Route path="/gist/:id" component={Gist} /> */}
                     </Column>
                 </Row>
             </div>
-            </Router>
         )
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const actions = Object.assign({}, {requestGists, requestGist})
+    const actions = Object.assign({}, {requestGists, requestGist, filterByTag})
     return {
         actions: bindActionCreators(actions, dispatch),
     }
@@ -65,6 +83,8 @@ const mapStateToProps = (state) => {
     return {
         gists: state.gists.items,
         tags: state.tags,
+        bytag: state.gists.bytag,
+        gist: state.gist.item
     }
 }
 

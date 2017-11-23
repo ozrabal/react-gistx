@@ -23,6 +23,7 @@ export default function gists(state = initialState, action={}) {
         case REQUEST_GISTS:
             return {
                 ...state,
+                bytag: null,
                 fetching: true,
                 items: null
             }

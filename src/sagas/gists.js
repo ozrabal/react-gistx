@@ -3,6 +3,10 @@ import { receivedGists, errorRequestingGists, applyTags, appliedTags, errorApply
 import { requestTags, errorRequestingTags , types as tagTypes} from '../actions/tags'
 import { fetchGists } from '../api/gists'
 
+const watchRequestGists = function *() {
+    yield takeLatest(gistTypes.REQUEST_GISTS, fetchGistsFromApi)
+}
+
 export const fetchGistsFromApi = function *(action) {
     try {
         const gistsFromApi = yield call(fetchGists)
@@ -12,8 +16,8 @@ export const fetchGistsFromApi = function *(action) {
     }
 }
 
-const watchRequestGists = function *() {
-    yield takeLatest(gistTypes.REQUEST_GISTS, fetchGistsFromApi)
+const watchReceivedGists = function *() {
+    yield takeLatest([gistTypes.RECEIVED_GISTS,  tagTypes.REMOVED_TAG], fetchTagsFromApi)
 }
 
 export const fetchTagsFromApi = function *(action) {
@@ -22,6 +26,10 @@ export const fetchTagsFromApi = function *(action) {
     } catch(error) {
         yield put(errorRequestingTags(error.message))
     }
+}
+
+const watchReceivedTags = function *() {
+    yield takeLatest([tagTypes.RECEIVED_TAGS, tagTypes.ADDED_TAG], applyTagsToGists)
 }
 
 export const applyTagsToGists = function *(action) {
@@ -33,20 +41,12 @@ export const applyTagsToGists = function *(action) {
     }
 }
 
-export const filterGistsByTag = function *(action) {
-    yield put(filteredBytag(action.payload.tag))
-}
-
-const watchReceivedGists = function *() {
-    yield takeLatest([gistTypes.RECEIVED_GISTS,  tagTypes.REMOVED_TAG], fetchTagsFromApi)
-}
-
-const watchReceivedTags = function *() {
-    yield takeLatest([tagTypes.RECEIVED_TAGS, tagTypes.ADDED_TAG], applyTagsToGists)
-}
-
 const watchFilterGists = function *() {
     yield takeLatest([gistTypes.FILTER_BY_TAG], filterGistsByTag)
+}
+
+export const filterGistsByTag = function *(action) {
+    yield put(filteredBytag(action.payload.tag))
 }
 
 export default function *gists() {

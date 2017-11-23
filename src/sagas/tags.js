@@ -2,6 +2,10 @@ import {  all, call, fork, put, takeLatest } from 'redux-saga/effects'
 import { requestAllTags, receivedAllTags, receivedTags, errorRequestingTags, addedTag, errorAddingTag, removedTag, errorRemovingTag, types } from '../actions/tags'
 import { fetchTags, saveTag, removeTag } from '../api/tags'
 
+const watchRequestTags = function *() {
+    yield takeLatest(types.REQUEST_TAGS, fetchTagsFromApi)
+}
+
 export const fetchTagsFromApi = function *(action) {
     try {
         const tagsFromApi = yield call(fetchTags)
@@ -13,8 +17,8 @@ export const fetchTagsFromApi = function *(action) {
     }
 }
 
-const watchRequestTags = function *() {
-    yield takeLatest(types.REQUEST_TAGS, fetchTagsFromApi)
+const watchAddTag = function *() {
+    yield takeLatest(types.ADD_TAG, saveTagApi)
 }
 
 export const saveTagApi = function *(action) {
@@ -28,8 +32,8 @@ export const saveTagApi = function *(action) {
     }
 }
 
-const watchAddTag = function *() {
-    yield takeLatest(types.ADD_TAG, saveTagApi)
+const watchRemoveTag = function *() {
+    yield takeLatest(types.REMOVE_TAG, removeTagApi)
 }
 
 export const removeTagApi = function *(action) {
@@ -39,10 +43,6 @@ export const removeTagApi = function *(action) {
     } catch(error) {
         yield put(errorRemovingTag(error.message))
     }
-}
-
-const watchRemoveTag = function *() {
-    yield takeLatest(types.REMOVE_TAG, removeTagApi)
 }
 
 export default function *tags() {
