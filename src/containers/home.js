@@ -14,15 +14,16 @@ import { Tags } from '../components/tags'
 class Home extends Component {
 
     componentDidMount() {
-        const { actions, gists,  match: { path } } = this.props
+        const { actions, gists,currentTag,  match: { params: { tag } } } = this.props
 
         actions.requestGists()
     }
 
     componentWillReceiveProps(nextProps) {
-        const {actions, gists,gist,  match: { params: { tag } } } = this.props
+        const {actions, gists,gist,currentTag,  match: { params: { tag } } } = this.props
 
-        if (nextProps.match.params.tag !== tag) {
+        if (gists && currentTag !== nextProps.match.params.tag) {
+
             actions.filterByTag( nextProps.match.params.tag)
         }
     }
@@ -53,17 +54,9 @@ class Home extends Component {
                 <Row>
                     <Column sm={4}>
                         { this.renderList() }
-
-                        { /*<Route exact path="/tag/:tag" component={ByTagList} /> */}
-                        { /*<Route path="/" component={ItemsList} /> */}
-                        { /*tag && <h4>Marked as {tag}</h4> */}
-                        { /*tag && bytag && <ItemsList items={bytag} filter={tag}/> */}
-                        {/*!tag && gists && <ItemsList items={gists} filter={tag}/> */}
-                        {/* !gists && <Loading/> */ }
                     </Column>
                     <Column sm={8}>
                         <Gist/>
-                        {/*<Route path="/gist/:id" component={Gist} /> */}
                     </Column>
                 </Row>
             </div>
@@ -83,7 +76,8 @@ const mapStateToProps = (state) => {
         gists: state.gists.items,
         tags: state.tags,
         bytag: state.gists.bytag,
-        gist: state.gist.item
+        gist: state.gist.item,
+        currentTag: state.gists.currentTag,
     }
 }
 
