@@ -10,6 +10,7 @@ import { theme } from './styled/theme'
 import { getToken } from './utils'
 import { validateToken } from './actions/auth'
 import Home from './containers/home'
+import Tag from './containers/tag'
 import About from './containers/about'
 import Login from './containers/login'
 import Auth from './containers/auth'
@@ -51,7 +52,7 @@ class App extends Component {
                             <Route exact path="/" component={userIsAuthenticated(Home)}/>
                             <Route exact path="/gist/:id" component={userIsAuthenticated(Home)}/>
 
-                            <Route exact path="/tag/:tag" component={userIsAuthenticated(Home)}/>
+                            <Route exact path="/tag/:tag" component={userIsAuthenticated(Tag)}/>
                             <Route exact path="/about" component={userIsAuthenticated(About)}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/auth" component={Auth}/>

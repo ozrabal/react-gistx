@@ -11,20 +11,23 @@ import { Row, Column } from '../styled'
 
 import { Tags } from '../components/tags'
 
-class Home extends Component {
+class Tag extends Component {
 
     componentDidMount() {
         const { actions, gists,currentTag,  match: { params: { tag } } } = this.props
 
         actions.requestGists()
+        if(gists) {
+            actions.filterByTag( tag)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         const {actions, gists,gist,currentTag,  match: { params: { tag } } } = this.props
 
-        if ( currentTag ) {
+        if (tag !== nextProps.match.params.tag) {
 
-            //actions.filterByTag( currentTag)
+            actions.filterByTag( nextProps.match.params.tag)
         }
     }
 
@@ -33,9 +36,9 @@ class Home extends Component {
      * @return {ReactElement} markup
      */
     renderList() {
-        const {gists, bytag, currentTag,match: { params: { tag } }} = this.props
-console.log('currentTag',currentTag)
-        if (tag || currentTag) {
+        const {gists, bytag, match: { params: { tag } }} = this.props
+
+        if (tag) {
             return <ItemsList items={bytag} />
         }
         return <ItemsList items={gists} />
@@ -46,6 +49,7 @@ console.log('currentTag',currentTag)
 
         return (
             <div>
+                TAG
                 <Row>
                     <Column sm={12}>
                         {tags.all && <Tags tags={tags.all} />}
@@ -56,7 +60,8 @@ console.log('currentTag',currentTag)
                         { this.renderList() }
                     </Column>
                     <Column sm={8}>
-                        <Gist/>
+                        {/*<Gist/>*/}
+                        <Route exact path="/gist/:id" component={(Gist)}/>
                     </Column>
                 </Row>
             </div>
@@ -81,4 +86,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Tag))
