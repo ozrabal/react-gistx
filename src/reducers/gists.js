@@ -14,6 +14,7 @@ const {
 export const initialState = {
     items: null,
     bytag: null,
+    currentTag: null,
     fetching: false,
     error: null
 }
@@ -24,8 +25,9 @@ export default function gists(state = initialState, action={}) {
             return {
                 ...state,
                 bytag: null,
+                currentTag: null,
                 fetching: true,
-                items: null
+                //items: null
             }
         case RECEIVED_GISTS:
             return {
@@ -62,12 +64,13 @@ export default function gists(state = initialState, action={}) {
         case FILTER_BY_TAG:
             return {
                 ...state,
-                bytag: null,
+                //bytag: null,
+                //currentTag: null,
             }
         case FILTERED_BY_TAG:
-        console.log('reducer', action.payload)
             return {
                 ...state,
+                currentTag: action.payload.tag,
                 bytag: Object.assign(state.items.filter((item) => {
                     if(item.tag) {
                     return item.tag.find((tag) => {

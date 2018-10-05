@@ -10,7 +10,7 @@ const watchRequestGists = function *() {
 export const fetchGistsFromApi = function *(action) {
     try {
         const gistsFromApi = yield call(fetchGists)
-           yield put(receivedGists(gistsFromApi))
+           yield put.resolve(receivedGists(gistsFromApi))
     } catch(error) {
         yield put(errorRequestingGists(error.message))
     }
@@ -42,11 +42,13 @@ export const applyTagsToGists = function *(action) {
 }
 
 const watchFilterGists = function *() {
+
     yield takeLatest([gistTypes.FILTER_BY_TAG], filterGistsByTag)
 }
 
 export const filterGistsByTag = function *(action) {
-    yield put(filteredBytag(action.payload.tag))
+    console.log('pay',action.payload)
+    yield put.resolve(filteredBytag(action.payload.tag))
 }
 
 export default function *gists() {
